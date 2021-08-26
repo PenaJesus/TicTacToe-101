@@ -9,6 +9,13 @@
 // The variable will change from X to O based on what player turn it is. We need to hold this so we can place an X or O on the board when they're clicked.
 let currentMarker = 'X'
 
+let board = [
+  ["","",""],
+  ["","",""],
+  ["","",""],
+]
+
+
 
 
 
@@ -27,18 +34,12 @@ const handleClick = (element) => {
 }
 
 
-
-
-
-
-
-
-
-
-
 // this function places the "currentMarker" inside the HTML element that was clicked and calls the "changeMarker" function.
 const addMarker = (id) => {
-
+  
+  const row = parseInt(id.charAt(0))
+  const column = parseInt(id.charAt(2))
+  board[row][column] = currentMarker
   // @TODO-1: Open the console tab in your Chrome Inspector Tool and click on the top-left square to see what's logged to the console. 
   console.log(`*** The current marker is:  ${currentMarker}. ***`)
   console.log(`Therefore, a  "${currentMarker}"  should be placed in the square with the id:  ${id}`)
@@ -51,16 +52,9 @@ const addMarker = (id) => {
   // document
   // .innerHTML 
 
-  changeMarker()
+  checkForWin()
+  
 }
-
-
-
-
-
-
-
-
 
 
 // This "changeMarker" function changes "X" to "O" in the "currentMarker" variable or "O" to "X"
@@ -71,14 +65,6 @@ const changeMarker = () => {
     currentMarker = "X"
   }
 }
-
-
-
-
-
-
-
-
 
 
 // This "resetBoard" function is called when the user clicks on the "Restart" button.
@@ -96,7 +82,11 @@ const resetBoard = () => {
   const squares = document.getElementsByTagName("TD")
   // loops over the HTML Collection of TDs and clears out the Xs and Os
   for (i=0; i < squares.length; i++) {
-
+   board = [
+     ["","",""],
+     ["","",""],
+     ["","",""],
+   ]
     // will log out the id of each square as it loops over them.
     console.log(squares[i].id)
 
@@ -104,3 +94,36 @@ const resetBoard = () => {
     squares[i].innerHTML = null
   }  
 }
+const horizontalWin = () => {
+  if((board[0][0] == currentMarker && board[0][1] == currentMarker && board[0][2] == currentMarker) 
+  || (board[1][0] == currentMarker && board[1][1] == currentMarker && board[1][2] == currentMarker)
+  || (board[2][0] == currentMarker && board[2][1] == currentMarker && board[2][2] == currentMarker)
+) return true;
+else return false;
+}
+
+const verticalWin = () => {
+if((board[0][0] == currentMarker && board[1][0] == currentMarker && board[2][0] == currentMarker)
+|| (board[0][1] == currentMarker && board[1][1] == currentMarker && board[2][1] == currentMarker)
+|| (board[0][2] == currentMarker && board[1][2] == currentMarker && board[2][2] == currentMarker)
+)return true;
+else return false;
+}
+
+const diagonalWin = () => {
+if((board[0][0] == currentMarker && board[1][1] == currentMarker && board[2][2] == currentMarker)
+|| (board[0][2] == currentMarker && board[1][1] == currentMarker && board[2][0] == currentMarker)
+){ console.log(board)
+return true;
+ } else return false;
+}
+
+
+const checkForWin = () => {
+  if(horizontalWin() || verticalWin() || diagonalWin()) {
+    window.alert(`Player ${currentMarker} won!`)
+  } else {
+    changeMarker()
+  }
+}
+
