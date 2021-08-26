@@ -112,7 +112,7 @@ else return false;
 
 const diagonalWin = () => {
 if((board[0][0] == currentMarker && board[1][1] == currentMarker && board[2][2] == currentMarker)
-|| (board[0][2] == currentMarker && board[1][1] == currentMarker && board[0][2] == currentMarker)
+|| (board[0][2] == currentMarker && board[1][1] == currentMarker && board[2][0] == currentMarker)
 ){ console.log(board)
 return true;
  } else return false;
